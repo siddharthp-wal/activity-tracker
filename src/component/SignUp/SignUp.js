@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, Checkbox } from 'antd';
+import handleSignUp from './axiosSignUp'
 
 const layout = {
     labelCol: {
@@ -22,8 +23,9 @@ function SignUp(props) {
     const [login, setLogin] = useState(false);
     const onFinish = values => {
         console.log('Success:', values);
-        localStorage.setItem("username", values.username)
-        setLogin(true)
+        // localStorage.setItem("username", values.username)
+        handleSignUp(values.username,values.password);
+        // setLogin(true)
     };
 
     const onFinishFailed = errorInfo => {
