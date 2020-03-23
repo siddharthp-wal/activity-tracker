@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Form, Input, Button} from 'antd';
-import handleSignUp from './axiosSignUp'
+import { Form, Input, Button, Checkbox } from 'antd';
+import handleSignIn from './axiosSignIn';
 
 const layout = {
     labelCol: {
@@ -20,14 +20,11 @@ const tailLayout = {
 };
 
 function SignUp(props) {
-    const [logup, setLogup] = useState(false);
-    if(sessionStorage.getItem("jwt")){
-        sessionStorage.removeItem("jwt");
-    }
+    const [login, setLogin] = useState(false);
     function onFinish(values){
         console.log('Success:', values);
         // localStorage.setItem("username", values.username)
-        handleSignUp(values.username,values.password,setLogup);
+        handleSignIn(values.username,values.password,setLogin);
         // setLogin(true)
     };
 
@@ -73,13 +70,17 @@ function SignUp(props) {
                     <Input.Password />
                 </Form.Item>
 
+                <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+
                 <Form.Item {...tailLayout}>
                     <Button type="primary" htmlType="submit">
                         Submit
         </Button>
                 </Form.Item>
             </Form>
-            {logup && <Redirect to="/signIn" />}
+            {login && <Redirect to="/report" />}
         </React.Fragment>
     );
 }
