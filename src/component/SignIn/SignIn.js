@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, Checkbox } from 'antd';
 import handleSignIn from './axiosSignIn';
@@ -20,13 +20,24 @@ const tailLayout = {
 };
 
 function SignIn(props) {
-
+    
     const [login, setLogin] = useState(false);
-    const [ authenticate, setauthenticate] = useState(false)
     
     function onFinish(values){
         console.log('Success:', values);
-        handleSignIn(values.username,values.password,setLogin);
+        handleSignIn(values.username,values.password)
+        .then(
+            (response)=>{
+                if(response){
+                    // console.log(response.data);
+                    // localStorage.setItem("username",JSON.stringify(response.data.email));
+                    // sessionStorage.setItem("jwt",JSON.stringify(response.data.token));
+                    
+                    setLogin(true);
+                }
+            }
+         )
+        .catch(err => console.log(err))
     };
 
     const onFinishFailed = errorInfo => {

@@ -5,10 +5,10 @@ const clearUserAction = () => ({
   });
 
   
-const logoutUser = () => dispatch => {
-    dispatch(clearUserAction());
-    localStorage.clear();
-    sessionStorage.clear();
-  };
+// const logoutUser = () => dispatch => {
+//     dispatch(clearUserAction());
+//     localStorage.clear();
+//     sessionStorage.clear();
+//   };
 
-export default logoutUser;
+// export default logoutUser;

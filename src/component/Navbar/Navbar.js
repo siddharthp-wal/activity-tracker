@@ -10,15 +10,19 @@ import {
   Button
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import logoutUser from "../../Redux/actions";
+import { useDispatch,useSelector } from "react-redux";
+// import logoutUser from "../../Redux/actions";
 
 const NavbarComponent = () => {
+  const isAuth  = useSelector(state => state.isAuthenticated)
   const dispatch = useDispatch();
-  const isAuthenticated = ()=>{
-    console.log()
-    dispatch(logoutUser)
-  }
+
+  const isAuthenticated = ()=>(
+    ()=>dispatch({type:'CLEAR_USER'},[dispatch])
+  )
+    // dispatch({type:'CLEAR_USER'})
+    // console.log(dispatch({type:'CLEAR_USER'}))
+  
   // dispatch(logoutUser)
 
   // const value = sessionStorage.getItem("jwt");
@@ -26,7 +30,7 @@ const NavbarComponent = () => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        {!isAuthenticated ? (
+        {isAuth ? (
           <Nav>
             <NavbarBrand href="/signin">
               Hello : {localStorage.getItem("username")}
