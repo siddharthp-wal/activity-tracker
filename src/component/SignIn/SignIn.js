@@ -19,13 +19,14 @@ const tailLayout = {
     },
 };
 
-function SignUp(props) {
+function SignIn(props) {
+
     const [login, setLogin] = useState(false);
+    const [ authenticate, setauthenticate] = useState(false)
+    
     function onFinish(values){
         console.log('Success:', values);
-        // localStorage.setItem("username", values.username)
         handleSignIn(values.username,values.password,setLogin);
-        // setLogin(true)
     };
 
     const onFinishFailed = errorInfo => {
@@ -34,7 +35,6 @@ function SignUp(props) {
 
     return (
         <React.Fragment>
-
             <Form
                 {...layout}
                 name="basic"
@@ -85,4 +85,4 @@ function SignUp(props) {
     );
 }
 
-export default SignUp;
+export default SignIn;

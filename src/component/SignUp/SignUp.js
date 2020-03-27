@@ -20,15 +20,16 @@ const tailLayout = {
 };
 
 function SignUp(props) {
+
     const [logup, setLogup] = useState(false);
+
     if(sessionStorage.getItem("jwt")){
         sessionStorage.removeItem("jwt");
     }
+
     function onFinish(values){
         console.log('Success:', values);
-        // localStorage.setItem("username", values.username)
         handleSignUp(values.username,values.password,setLogup);
-        // setLogin(true)
     };
 
     const onFinishFailed = errorInfo => {
