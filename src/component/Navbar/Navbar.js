@@ -1,49 +1,107 @@
-import React from "react";
+import React, { useState } from "react";
 import "antd/dist/antd.css";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Button
-} from "reactstrap";
+import { Navbar, NavbarBrand, Nav, NavItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useDispatch,useSelector } from "react-redux";
-// import logoutUser from "../../Redux/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { Drawer } from "antd";
+import { MenuFoldOutlined } from "@ant-design/icons";
+
 
 const NavbarComponent = () => {
-  const isAuth  = useSelector(state => state.isAuthenticated)
+
   const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.isAuthenticated);
 
-  const isAuthenticated = ()=>(
-    ()=>dispatch({type:'CLEAR_USER'},[dispatch])
-  )
-    // dispatch({type:'CLEAR_USER'})
-    // console.log(dispatch({type:'CLEAR_USER'}))
-  
-  // dispatch(logoutUser)
+  dispatch({ type: "ADD_USER" }, [dispatch]);
+  const [visible,setVisible] = useState()
 
-  // const value = sessionStorage.getItem("jwt");
+  const onClose = ()=>{
+    setVisible(false);
+  }
+
+  const showDrawer = ()=>{
+    setVisible(true);
+  }
 
   return (
     <div>
       <Navbar color="light" light expand="md">
         {isAuth ? (
+
+        <div>
           <Nav>
-            <NavbarBrand href="/signin">
+            <NavbarBrand>
               Hello : {localStorage.getItem("username")}
             </NavbarBrand>
-            <NavItem>
-              <Link to="/signup">SignUp</Link>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+            <NavItem >
+              <Link to="/" onClick = {()=>(dispatch({ type: "CLEAR_USER" }, [dispatch]))} >Logout</Link>
             </NavItem>
-            <NavItem ><Button onClick = {()=>{isAuthenticated()}}>Logout</Button></NavItem>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <NavItem>
+            <MenuFoldOutlined onClick={showDrawer} ></MenuFoldOutlined>
+          </NavItem>
           </Nav>
-        ) : null}
+           <Drawer
+           title="Menu"
+           placement="right"
+           closable={false}
+           onClose={onClose}
+           visible={visible}
+         >
+           <p>
+             <Link to="/activity">activities</Link>
+           </p>
+           <p>
+             <Link to="/report">report</Link>
+           </p>
+         </Drawer>
+        </div>
 
-        <NavbarToggler />
-        <Collapse navbar>
+        ) : (
           <Nav className="mr-auto" navbar>
             <NavItem>
               <Link to="/signup">SignUp</Link>
@@ -53,20 +111,12 @@ const NavbarComponent = () => {
               <Link to="/signin">SignIn</Link>
             </NavItem>
             &nbsp;&nbsp;&nbsp;
-            {/* <NavItem>
-              <Link to="/activity">Activity</Link>
-            </NavItem> */}
           </Nav>
-        </Collapse>
+        )}
       </Navbar>
     </div>
   );
 };
 export default NavbarComponent;
 
-//so what i want from navbar
-/*
-navbar should show title,signup and signIn 
-upon signingin successfully 
-navbar should show title,user-message and logout
-*/
+

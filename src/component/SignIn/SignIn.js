@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Input, Button, Checkbox } from 'antd';
 import handleSignIn from './axiosSignIn';
+import { useDispatch, useSelector} from "react-redux";
 
 const layout = {
     labelCol: {
@@ -22,23 +23,28 @@ const tailLayout = {
 function SignIn(props) {
     
     const [login, setLogin] = useState(false);
+    const dispatch = useDispatch();
     
     function onFinish(values){
-        console.log('Success:', values);
+        // console.log('Success:', values);
         handleSignIn(values.username,values.password)
         .then(
             (response)=>{
                 if(response){
-                    // console.log(response.data);
-                    // localStorage.setItem("username",JSON.stringify(response.data.email));
-                    // sessionStorage.setItem("jwt",JSON.stringify(response.data.token));
-                    
+                    console.log(response)
                     setLogin(true);
+                    sessionStorage.setItem('jwt',response.data.token)
+                    sessionStorage.setItem('id',response.data.id)
+                    localStorage.setItem('username',response.data.email)
+                    dispatch({type:'ADD_USER'},[dispatch]);
                 }
             }
          )
         .catch(err => console.log(err))
     };
+
+    const isAuth = useSelector(state => state.isAuthenticated);
+    console.log("isAuth:",isAuth);
 
     const onFinishFailed = errorInfo => {
         console.log('Failed:', errorInfo);

@@ -1,7 +1,7 @@
 import axios from '../../axios';
 
 export default function getActivities(id,setReportActivity){
-    axios.get(`user/{"loginId": ${id}}/activity`)
+    axios.get(`user/${id}/activity`)
     .then(
        (response)=>{
            if(response){
