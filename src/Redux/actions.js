@@ -1,56 +1,23 @@
-//contains code for reducer function.
-const initialState ={
-  isAuthenticated:false,
+export const FETCH_ACTIVITY_PENDING = 'FETCH_ACTIVITY_PENDING';
+export const FETCH_ACTIVITY_SUCCESS = 'FETCH_ACTIVITY_SUCCESS';
+export const FETCH_ACTIVITY_ERROR = 'FETCH_ACTIVITY_ERROR';
+
+function fetchActivityPending() {
+    return {
+        type: FETCH_ACTIVITY_PENDING
+    }
 }
 
-const Reducer =(state=initialState,{ type , payload }) =>{
+function fetchActivitySuccess(activity) {
+    return {
+        type: FETCH_ACTIVITY_SUCCESS,
+        activity
+    }
+}
 
-  switch(type){
-      case 'ADD_USER':
-          return { isAuthenticated : true };
-      case 'CLEAR_USER':
-          return { isAuthenticated : false };
-      default :
-          return state;
-  }
-};
-export default Reducer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//functions that will handle sending requests to the API and dispatching actions to our redux store.
-
-const clearUserAction = () => ({
-    type: 'CLEAR_USER'
-  });
-
-  
-// const logoutUser = () => dispatch => {
-//     dispatch(clearUserAction());
-//     localStorage.clear();
-//     sessionStorage.clear();
-//   };
-
-// export default logoutUser;
+function fetchProductsError(error) {
+    return {
+        type: FETCH_PRODUCTS_ERROR,
+        error : error
+    }
+}

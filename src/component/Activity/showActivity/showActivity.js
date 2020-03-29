@@ -1,15 +1,10 @@
 import { Table } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ShowActivity from "./axiosShowActivity";
-import { Card, DatePicker } from 'antd';
-import moment from 'moment';
-
-function dateString(dateObject){
-  const dt = moment(dateObject).toDate()
-  const month = dt.getMonth()+1
-  return dt.getDate()+"-"+month+"-"+dt.getFullYear();
-}
-
+import { Card, DatePicker } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import dateString from "../dateString";
+import { CaretRightOutlined, CaretLeftOutlined } from "@ant-design/icons";
 
 const columns = [
   {
@@ -35,45 +30,55 @@ const columns = [
 ];
 
 export default function ShowActivityTable() {
+  const dispatch = useDispatch();
+  dispatch({ type: "CURRENT_DATE" }, [dispatch]);
+
+  
 
   const [activity, setActivity] = useState();
 
-  const onSubmitActivity = (date)=>{
-    ShowActivity(date).then(response => {
-      setActivity(response.data.activity);
+  function onChangeHandler(obj) {
+    ShowActivity(obj).then(resp => {
+      setActivity(resp.data.activity);
     });
-
   }
 
-  console.log("avtivityvalue", activity);
-
-  const dateForDatePicker=()=>{
-    let dateT = new Date();
-    let dateTi = moment(dateString(dateT)).format("YYYY-MM-DD")
-    return dateTi
+  function handlePrevious(){
+    dispatch({ type: "DECREMENT_DATE" }, [dispatch]);
   }
+
+  function handleNext(){
+    dispatch({ type: "INCREMENT_DATE" }, [dispatch]);
+  }
+
+  const CURRENT_DATE = useSelector(state => state.dateT);
+  console.log(CURRENT_DATE)
 
   useEffect(() => {
-    onSubmitActivity(dateString(dateForDatePicker))
-  }, []);
+    let mounted = true;
+    if (mounted) onChangeHandler(CURRENT_DATE);
+    return () => (mounted = false);
+  }, [CURRENT_DATE,dispatch]);
 
-  // onSubmitActivity()
+  
 
-  console.log("dfsaas",dateForDatePicker())
-
-  const dateFormat = "YYYY-MM-DD";
   return (
     <div>
-      <Card title="Activity Table " bordered={false}>
-      <DatePicker
-        // defaultValue=
-        onChange={date => {
-          console.log("From showActivity datepicker",dateString(date))
-          onSubmitActivity(dateString(date))
-        }}
-      />
-       <Table columns={columns} dataSource={activity} />
-    </Card>
+      <Card title="Activity Table " bordered={true}>
+        <CaretLeftOutlined
+        onClick={handlePrevious}
+        />
+        <DatePicker
+          onChange={date => {
+            onChangeHandler(dateString(date));
+          }}
+        />
+        <CaretRightOutlined
+        onClick={handleNext}
+        />
+
+        <Table columns={columns} dataSource={activity} />
+      </Card>
     </div>
   );
 }
